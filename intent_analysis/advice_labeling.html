@@ -38,30 +38,49 @@ aside { width: 210px; flex-shrink: 0; padding: 12px; border-right: 1px solid var
 aside label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 8px; }
 #list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
 #list button { padding: 3px 0; font: 11px "IBM Plex Mono", monospace; border-radius: 5px; }
-#list button.done { background: var(--yes-soft); border-color: var(--yes); color: var(--yes); }
-#list button.partial { background: var(--no-soft); border-color: var(--no); color: var(--no); }
+#list button.yes { background: var(--yes-soft); border-color: var(--yes); color: var(--yes); }
+#list button.no { background: var(--no-soft); border-color: var(--no); color: var(--no); }
 #list button.current { outline: 2px solid var(--accent); }
-main { flex: 1; padding: 16px 22px 160px; max-width: 980px; }
+main { flex: 1; padding: 16px 22px 150px; max-width: 980px; min-width: 0; }
 .item-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; color: var(--muted); }
 .item-head b { color: var(--ink); font-size: 16px; }
 .tag { padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--accent-soft); color: var(--accent); }
 .hint { color: var(--muted); font-size: 12.5px; margin: 0 0 10px; }
+.model { background: var(--panel); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px;
+         padding: 10px 14px 12px; margin-bottom: 12px; box-shadow: var(--shadow); }
+.model-head { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; }
+.model-head small { font-weight: 400; letter-spacing: 0; }
+.model dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; margin: 0; align-items: center; }
+.model dt { color: var(--muted); font-size: 13px; }
+.model dd { margin: 0; }
+.model dd small { color: var(--muted); }
+.reasoning { margin-top: 9px; padding: 8px 11px; background: var(--ground); border: 1px solid var(--border); border-radius: 8px; }
+.badge { display: inline-block; padding: 0 10px; border-radius: 999px; font-size: 12.5px; font-weight: 600; border: 1.5px solid; }
+.badge.yes { color: var(--yes); background: var(--yes-soft); border-color: var(--yes); }
+.badge.no { color: var(--no); background: var(--no-soft); border-color: var(--no); }
+.badge.leaning { border-style: dashed; }
+.answer.yes { color: var(--yes); } .answer.no { color: var(--no); }
+.jump { font-size: 12px; padding: 1px 9px; margin-left: 6px; }
 .turn { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px;
         box-shadow: var(--shadow); overflow: hidden; }
-.turn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
-.turn-head { display: flex; align-items: center; gap: 10px; padding: 6px 12px; background: var(--user-bg);
+.turn.decisive { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.turn-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 6px 12px; background: var(--user-bg);
              font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--muted); }
-.turn-head .pick { margin-left: auto; font-weight: 500; letter-spacing: 0; }
-.turn-head .pick.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.turn-head .flag { color: var(--accent); }
+.chip { margin-left: auto; font-weight: 500; letter-spacing: 0; font-size: 11.5px; padding: 0 9px; border-radius: 999px;
+        border: 1px solid var(--border); background: var(--panel); }
+.chip.yes { color: var(--yes); border-color: var(--yes); } .chip.no { color: var(--no); border-color: var(--no); }
+.chip[title] { cursor: help; }
 .turn-body { padding: 10px 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .more { color: var(--accent); cursor: pointer; font-size: 12.5px; padding: 0 14px 10px; display: block; }
 .panel { position: fixed; bottom: 0; left: 210px; right: 0; background: var(--panel); border-top: 1px solid var(--border);
          padding: 10px 22px 12px; box-shadow: 0 -2px 8px rgba(0,0,0,.06); z-index: 4; }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0; }
-.row .name { width: 250px; font-size: 13px; }
-.row .name small { color: var(--muted); }
+.row .name { font-size: 13.5px; font-weight: 500; margin-right: 4px; }
+.choice { min-width: 84px; }
 .choice.on.yes { background: var(--yes-soft); border-color: var(--yes); color: var(--yes); font-weight: 600; }
 .choice.on.no { background: var(--no-soft); border-color: var(--no); color: var(--no); font-weight: 600; }
+.auto { font-size: 12.5px; color: var(--muted); margin-left: 6px; }
 .key { font: 10px "IBM Plex Mono", monospace; color: var(--muted); margin-left: 4px; }
 #notes { flex: 1; min-width: 200px; font: inherit; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
          background: var(--ground); color: var(--ink); }
@@ -74,7 +93,10 @@ dialog h2 { font-size: 17px; margin: 0 0 8px; } dialog h3 { font-size: 14px; mar
 dialog pre { white-space: pre-wrap; font: 12.5px/1.55 "IBM Plex Mono", monospace; background: var(--ground);
              border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
 dialog .close { position: sticky; bottom: 0; background: var(--panel); padding: 10px 24px; border-top: 1px solid var(--border); text-align: right; }
-@media (max-width: 800px) { aside { display: none; } .panel { left: 0; } .row .name { width: 100%; } }
+@media (max-width: 800px) {
+  aside { display: none; } .panel { left: 0; } main { padding: 12px 16px 190px; }
+  .model dl { grid-template-columns: 1fr; } .model dt { margin-top: 4px; }
+}
 </style>
 
 <header>
@@ -95,30 +117,25 @@ dialog .close { position: sticky; bottom: 0; background: var(--panel); padding: 
   </aside>
   <main>
     <div class="item-head" id="item-head"></div>
-    <p class="hint">Only the user's messages are shown; the assistant's replies are hidden. Read the turns in order and pick the
-      turn your labels describe: the <b>first</b> turn that seeks personal guidance, or, if none does, the turn that comes closest.</p>
+    <section class="model" id="model"></section>
+    <p class="hint">Only the user's messages are shown; the assistant's replies are hidden. Each turn's header shows the model's
+      labels for that turn; hover over them to read its reasoning.</p>
     <div id="turns"></div>
   </main>
 </div>
 
 <div class="panel">
-  <div class="row"><span class="name">Labelled turn <small>(click "label this turn")</small></span><span id="turn-choice">none</span></div>
-  <div class="row"><span class="name">Stage 1: asks for a recommendation, suggestion or guidance on what to do?</span>
-    <button class="choice yes" data-field="stage1" data-value="yes">Yes<span class="key">Q</span></button>
-    <button class="choice no" data-field="stage1" data-value="no">No<span class="key">W</span></button></div>
-  <div class="row"><span class="name">Stage 2: a personal/life matter (not a task/technical one)?</span>
-    <button class="choice yes" data-field="stage2" data-value="yes">Yes<span class="key">A</span></button>
-    <button class="choice no" data-field="stage2" data-value="no">No<span class="key">S</span></button></div>
-  <div class="row"><span class="name">Final label <small>(must agree with the two stages)</small></span>
-    <button class="choice yes" data-field="final" data-value="clear_yes">Clear yes<span class="key">1</span></button>
-    <button class="choice yes" data-field="final" data-value="leaning_yes">Leaning yes<span class="key">2</span></button>
-    <button class="choice no" data-field="final" data-value="leaning_no">Leaning no<span class="key">3</span></button>
-    <button class="choice no" data-field="final" data-value="clear_no">Clear no<span class="key">4</span></button></div>
+  <div class="row">
+    <span class="name">Does the user seek personal guidance in any turn?</span>
+    <button class="choice yes" data-value="yes">Yes<span class="key">Y</span></button>
+    <button class="choice no" data-value="no">No<span class="key">N</span></button>
+    <label class="auto"><input type="checkbox" id="auto-advance"> go to the next unlabelled after answering</label>
+  </div>
   <div class="row">
     <input id="notes" placeholder="notes (optional)">
     <button id="prev">← Previous</button>
     <button id="next">Next →</button>
-    <button id="next-open">Next unlabelled (N)</button>
+    <button id="next-open">Next unlabelled (U)</button>
     <span id="status"></span>
   </div>
 </div>
@@ -126,18 +143,35 @@ dialog .close { position: sticky; bottom: 0; background: var(--panel); padding: 
 <dialog id="guide">
   <div class="content">
     <h2>Guidelines</h2>
-    <p>For each conversation you see only the user's messages, in order. Label the conversation with the <b>first user turn that seeks
-      personal guidance</b>; turns after it do not matter. If no turn does, label it with the turn that comes <b>closest</b> to seeking
-      personal guidance (for a single-turn conversation, that turn). Click <i>label this turn</i> on that turn, then answer:</p>
-    <ol>
-      <li><b>Stage 1</b>: does that turn ask for a recommendation, suggestion, or guidance on what to do?</li>
-      <li><b>Stage 2</b>: is it about a personal/life matter rather than a task/technical one? Answer this even when Stage 1 is no:
-        judge what the turn is about, not whether it asks for a decision.</li>
-      <li><b>Final label</b>: <i>clear yes</i> / <i>leaning yes</i> when both stages are yes; otherwise <i>leaning no</i> / <i>clear no</i>.</li>
-    </ol>
-    <p>Personal guidance means the user asks what they specifically should do in their personal life, for example questions that start with
-      "Should I...?" or "What do I do about...?". Questions that seek objective information or opinions in general terms are not personal
-      guidance: the rate of ski injuries is information, while helping decide whether the user should go skiing is guidance.</p>
+    <p>For each conversation you see only the user's messages, in order. Answer one question: <b>does the user seek personal
+      guidance in any of their turns?</b></p>
+    <ul>
+      <li><b>Yes</b>: at least one user turn asks for a recommendation, suggestion, or guidance on what to do (Stage 1 below),
+        <i>and</i> is about the user's personal/life matter rather than a task or technical one (Stage 2 below).</li>
+      <li><b>No</b>: no turn does both.</li>
+    </ul>
+    <p>Personal guidance means the user asks what they specifically should do in their personal life, for example questions that
+      start with "Should I...?" or "What do I do about...?". Questions that seek objective information or opinions in general terms
+      are not personal guidance: the rate of ski injuries is information, while helping decide whether the user should go skiing is
+      guidance.</p>
+    <h3>The model's judgment (shown to save you time)</h3>
+    <p>Above each conversation, a model (Qwen3.8-27B) that read the user turns one by one shows its answers to Stage 1 and
+      Stage 2, its final label, and its reasoning. They describe its <b>labelled turn</b>, which is highlighted: the first turn it
+      judged as seeking personal guidance or, when it found none, the turn that came closest. Its labels for every other turn it read
+      are in that turn's header. It stops reading at its first advice turn, so later turns carry no model labels.</p>
+    <p>Treat the model's answer as a suggestion to check, not as the answer. For a model "yes", check that the labelled turn really
+      meets both stages. For a model "no", check the labelled turn and skim the other turns for a request the model missed.
+      Your label is your own judgment.</p>
+    <p>The model's final label also says how sure it was:</p>
+    <ul>
+      <li><b>Clear yes</b>: the user plainly asks what they should do about their own personal/life matter.</li>
+      <li><b>Leaning yes</b>: both stages yes, but the request is implicit, or it is not fully clear that the matter is the user's own
+        rather than a task or a general question.</li>
+      <li><b>Leaning no</b>: not both stages yes, but a reasonable reader could see the turn as seeking personal guidance (for example,
+        information requested about the user's own situation, or a personal matter framed as a task).</li>
+      <li><b>Clear no</b>: plainly not seeking personal guidance.</li>
+    </ul>
+    <p>The leaning labels are where the model is most often wrong, so read those conversations most carefully.</p>
     <h3>Two-stage criteria (Anthropic, "How people ask Claude for personal guidance", Appendix)</h3>
     <pre>Stage 1: Is the user asking for a recommendation, suggestion, or guidance on what to do?
 YES, seeking guidance → Proceed to Stage 2
@@ -167,20 +201,11 @@ TASK/TECHNICAL → NOT_ADVICE. The decision is about how to accomplish work:
 - Professional best practices in a field
 - Academic problem-solving
 - Any decision where a stranger with the same task would get the same answer</pre>
-    <h3>Final label</h3>
-    <ul>
-      <li><b>Clear yes</b>: the user plainly asks what they should do about their own personal/life matter.</li>
-      <li><b>Leaning yes</b>: both stages yes, but the request for guidance is implicit, or it is not fully clear that the matter is the
-        user's own personal/life matter rather than a task or a general question.</li>
-      <li><b>Leaning no</b>: not both yes, but a reasonable reader could see the turn as seeking personal guidance (for example,
-        information requested about the user's own situation, a personal matter framed as a task, or a guidance request whose
-        personal-versus-task nature is borderline).</li>
-      <li><b>Clear no</b>: plainly not seeking personal guidance.</li>
-    </ul>
     <h3>Saving your work</h3>
     <p>Labels are saved in this browser automatically, separately for each annotator name. When you finish (or to move to another
       computer), click <b>Export CSV</b> and send the file to the study team; <b>Import CSV</b> restores an exported file.
-      Keys: Q/W stage 1, A/S stage 2, 1-4 final label, N next unlabelled, ←/→ previous/next.</p>
+      To add a note, type it before answering (Enter leaves the note field).
+      Keys: Y yes, N no, U next unlabelled, J show the model's labelled turn, ←/→ previous/next.</p>
   </div>
   <div class="close"><button id="guide-close">Close</button></div>
 </dialog>
@@ -191,9 +216,9 @@ const ITEMS = window.LABEL_DATA;
 const NUM_PARTS = 4;                                        // for splitting the work among annotators
 const PART_SIZE = Math.ceil(ITEMS.length / NUM_PARTS);
 const PREVIEW_CHARS = 2000;
-const FIELDS = ["turn", "stage1", "stage2", "final", "notes"];
-const CSV_COLUMNS = ["sample_id", "platform", "annotator", "human_labelled_turn", "human_stage1", "human_stage2",
-                     "human_final", "notes", "labeled_at"];
+const YES_FINALS = ["clear_yes", "leaning_yes"];
+const FINAL_NAMES = { clear_yes: "Clear yes", leaning_yes: "Leaning yes", leaning_no: "Leaning no", clear_no: "Clear no" };
+const CSV_COLUMNS = ["sample_id", "platform", "annotator", "human_label", "model_final", "notes", "labeled_at"];
 const PLATFORM_NAMES = { chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini", grok: "Grok", perplexity: "Perplexity" };
 
 // NOTE: localStorage can be unavailable (private windows, blocked site data); labels then live in memory only
@@ -203,23 +228,31 @@ const store = {
 };
 
 let annotator = store.get("advice_labeling_annotator") || "";
-let labels = {};           // sample id -> {turn, stage1, stage2, final, notes, labeled_at}
+let labels = {};           // sample id -> {label: "yes" | "no", notes, labeled_at}
 let visible = [];          // items in the current part / filter
 let position = 0;          // index into `visible`
 const expanded = new Set();
 
-function storageKey() { return "advice_labeling_v1::" + annotator.trim().toLowerCase(); }
-function loadLabels() { labels = JSON.parse(store.get(storageKey()) || "{}"); }
+function storageKey(version) { return `advice_labeling_${version}::` + annotator.trim().toLowerCase(); }
+function loadLabels() {
+  const saved = store.get(storageKey("v2"));
+  labels = saved ? JSON.parse(saved) : fromVersion1(JSON.parse(store.get(storageKey("v1")) || "{}"));
+}
+// NOTE: the first version of this page asked for Stage 1, Stage 2 and the 4-way final label. A finished
+// label from it becomes the binary label here: a yes-side final means both stages were yes.
+function fromVersion1(oldLabels) {
+  const converted = {};
+  for (const [id, old] of Object.entries(oldLabels)) {
+    if (old.final) converted[id] = { label: YES_FINALS.includes(old.final) ? "yes" : "no", notes: old.notes || "", labeled_at: old.labeled_at };
+  }
+  return converted;
+}
 function saveLabels() {
-  const ok = store.set(storageKey(), JSON.stringify(labels));
+  const ok = store.set(storageKey("v2"), JSON.stringify(labels));
   document.getElementById("status").textContent = ok ? "saved in this browser" : "could not save in this browser, export often";
 }
-function isComplete(label) { return label && label.turn && label.stage1 && label.stage2 && label.final; }
-function isAdvice(label) { return label.stage1 === "yes" && label.stage2 === "yes"; }
-function allowedFinals(label) {
-  if (!label.stage1 || !label.stage2) return [];
-  return isAdvice(label) ? ["clear_yes", "leaning_yes"] : ["leaning_no", "clear_no"];
-}
+function isDone(label) { return Boolean(label && label.label); }
+function side(final) { return YES_FINALS.includes(final) ? "yes" : "no"; }
 
 function buildParts() {
   const select = document.getElementById("part");
@@ -237,38 +270,61 @@ function refreshVisible() {
   const currentId = visible[position] && visible[position].id;
   visible = ITEMS.filter((item, index) =>
     (part === "all" || Math.floor(index / PART_SIZE) === Number(part)) &&
-    (!onlyOpen || !isComplete(labels[item.id]) || item.id === currentId));
+    (!onlyOpen || !isDone(labels[item.id]) || item.id === currentId));
   position = Math.max(0, visible.findIndex(item => item.id === currentId));
 }
 
-function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
 function renderList() {
   const current = visible[position];
   document.getElementById("list").innerHTML = visible.map((item, index) => {
     const label = labels[item.id];
-    const status = isComplete(label) ? "done" : (label ? "partial" : "");
-    return `<button class="${status} ${item === current ? "current" : ""}" data-index="${index}">${item.id}</button>`;
+    return `<button class="${isDone(label) ? label.label : ""} ${item === current ? "current" : ""}" data-index="${index}">${item.id}</button>`;
   }).join("");
-  const done = ITEMS.filter(item => isComplete(labels[item.id])).length;
+  const done = ITEMS.filter(item => isDone(labels[item.id])).length;
   document.getElementById("progress").innerHTML = `<b>${done}</b> / ${ITEMS.length} labelled`;
+}
+
+function renderModel(item) {
+  const model = item.model;
+  const where = model.label === "yes" ? "the first turn it judged as seeking personal guidance"
+                                      : "it judged no turn as seeking personal guidance; this turn came closest";
+  document.getElementById("model").innerHTML = `
+    <div class="model-head">MODEL'S JUDGMENT <small>(Qwen3.8-27B; a suggestion to check, not the answer)</small></div>
+    <dl>
+      <dt>Final label</dt>
+      <dd><span class="badge ${side(model.final)} ${model.final.startsWith("leaning") ? "leaning" : ""}">${FINAL_NAMES[model.final]}</span>
+        <small>so personal guidance:</small> <b class="answer ${model.label}">${model.label}</b></dd>
+      <dt>Stage 1: asks for guidance on what to do?</dt><dd><b class="answer ${model.stage1}">${model.stage1}</b></dd>
+      <dt>Stage 2: a personal/life matter?</dt><dd><b class="answer ${model.stage2}">${model.stage2}</b></dd>
+      <dt>Labelled turn</dt>
+      <dd>turn ${model.turn} <small>(${where})</small>${item.num_user_turns > 1 ? `<button class="jump" data-jump="1">show it (J)</button>` : ""}</dd>
+    </dl>
+    <div class="reasoning"><b>Reasoning:</b> ${escapeHtml(model.reasoning)}</div>`;
 }
 
 function renderItem() {
   const item = visible[position];
-  const label = labels[item.id] || {};
   document.getElementById("item-head").innerHTML =
     `<b>#${item.id}</b><span class="tag">${PLATFORM_NAMES[item.platform] || item.platform}</span>` +
-    `<span>${item.num_user_turns} user turn${item.num_user_turns > 1 ? "s" : ""}` +
-    `${item.num_user_turns > item.turns.length ? `, first ${item.turns.length} shown` : ""}</span>`;
+    `<span>${item.num_user_turns} user turn${item.num_user_turns > 1 ? "s" : ""}</span>`;
+  renderModel(item);
+  const judged = Object.fromEntries(item.turn_labels.map(turnLabel => [turnLabel.turn, turnLabel]));
+  const lastJudged = item.turn_labels[item.turn_labels.length - 1].turn;
   document.getElementById("turns").innerHTML = item.turns.map((text, index) => {
     const number = index + 1;
     const key = item.id + ":" + number;
     const long = text.length > PREVIEW_CHARS && !expanded.has(key);
     const shown = long ? text.slice(0, PREVIEW_CHARS) + " …" : text;
-    return `<div class="turn ${label.turn === number ? "selected" : ""}">
-      <div class="turn-head">USER TURN ${number}
-        <button class="pick ${label.turn === number ? "on" : ""}" data-turn="${number}">label this turn</button></div>
+    const turnLabel = judged[number];
+    const chip = turnLabel
+      ? `<span class="chip ${side(turnLabel.final)}" title="${escapeHtml(turnLabel.reasoning)}">model: stage 1 ${turnLabel.stage1}, ` +
+        `stage 2 ${turnLabel.stage2}, ${FINAL_NAMES[turnLabel.final].toLowerCase()}</span>`
+      : `<span class="chip">no model label (it stopped at turn ${lastJudged})</span>`;
+    const decisive = number === item.model.turn;
+    return `<div class="turn ${decisive ? "decisive" : ""}" id="turn-${number}">
+      <div class="turn-head">USER TURN ${number}${decisive ? ` <span class="flag">· MODEL'S LABELLED TURN</span>` : ""}${chip}</div>
       <div class="turn-body">${escapeHtml(shown) || "<i>(empty turn)</i>"}</div>
       ${long ? `<span class="more" data-key="${key}">show all ${text.length.toLocaleString()} characters</span>` : ""}
     </div>`;
@@ -277,15 +333,8 @@ function renderItem() {
 }
 
 function renderPanel() {
-  const item = visible[position];
-  const label = labels[item.id] || {};
-  document.getElementById("turn-choice").textContent = label.turn ? "turn " + label.turn : "none";
-  const allowed = allowedFinals(label);
-  for (const button of document.querySelectorAll(".choice")) {
-    const field = button.dataset.field, value = button.dataset.value;
-    button.classList.toggle("on", label[field] === value);
-    button.disabled = field === "final" && !allowed.includes(value);
-  }
+  const label = labels[visible[position].id] || {};
+  for (const button of document.querySelectorAll(".choice")) button.classList.toggle("on", label.label === button.dataset.value);
   document.getElementById("notes").value = label.notes || "";
   document.getElementById("prev").disabled = position === 0;
   document.getElementById("next").disabled = position === visible.length - 1;
@@ -296,12 +345,11 @@ function setField(field, value) {
   const item = visible[position];
   const label = labels[item.id] = labels[item.id] || {};
   label[field] = value;
-  if (!allowedFinals(label).includes(label.final)) delete label.final;   // stages changed: the final label must be re-chosen
-  if (item.num_user_turns === 1 && !label.turn) label.turn = 1;          // a single turn is the labelled turn
   label.labeled_at = new Date().toISOString();
   saveLabels();
   renderPanel();
   renderList();
+  if (field === "label" && document.getElementById("auto-advance").checked) nextOpen();
 }
 
 function go(index) {
@@ -314,9 +362,13 @@ function go(index) {
 function nextOpen() {
   for (let step = 1; step <= visible.length; step++) {
     const index = (position + step) % visible.length;
-    if (!isComplete(labels[visible[index].id])) return go(index);
+    if (!isDone(labels[visible[index].id])) return go(index);
   }
   alert("Every conversation in this part is labelled. Please export your CSV.");
+}
+
+function showModelTurn() {
+  document.getElementById("turn-" + visible[position].model.turn).scrollIntoView({ block: "center", behavior: "smooth" });
 }
 
 function toCsv(rows) {
@@ -350,7 +402,7 @@ document.getElementById("export").onclick = () => {
   for (const item of ITEMS) {
     const label = labels[item.id];
     if (!label) continue;
-    rows.push([item.id, item.platform, annotator.trim(), label.turn, label.stage1, label.stage2, label.final, label.notes, label.labeled_at]);
+    rows.push([item.id, item.platform, annotator.trim(), label.label, item.model.final, label.notes, label.labeled_at]);
   }
   const blob = new Blob([toCsv(rows)], { type: "text/csv" });
   const link = document.createElement("a");
@@ -369,32 +421,40 @@ document.getElementById("import").onchange = async event => {
   if (who && !annotator.trim()) { annotator = who; document.getElementById("annotator").value = who; store.set("advice_labeling_annotator", who); loadLabels(); }
   if (!confirm(`Import ${rows.length} labels into the labels of "${annotator}"? Existing labels for the same conversations are replaced.`)) return;
   for (const row of rows) {
-    labels[row[column("sample_id")]] = {
-      turn: Number(row[column("human_labelled_turn")]) || undefined, stage1: row[column("human_stage1")] || undefined,
-      stage2: row[column("human_stage2")] || undefined, final: row[column("human_final")] || undefined,
-      notes: row[column("notes")] || "", labeled_at: row[column("labeled_at")] || new Date().toISOString(),
-    };
+    const value = name => (column(name) >= 0 ? row[column(name)] : "");
+    // an export of the first version of this page has a 4-way human_final instead of human_label
+    const oldFinal = value("human_final");
+    const label = value("human_label") || (oldFinal ? side(oldFinal) : "");
+    labels[value("sample_id")] = { label: label || undefined, notes: value("notes"), labeled_at: value("labeled_at") || new Date().toISOString() };
   }
   saveLabels(); refreshVisible(); renderItem(); renderList();
   event.target.value = "";
 };
 
+// Enter leaves a text field, and a checkbox or select gives up focus once changed, so that the next key press
+// is a shortcut again instead of typing into (or toggling) that field
+const leaveOnEnter = event => { if (event.key === "Enter") event.target.blur(); };
 document.getElementById("annotator").value = annotator;
 document.getElementById("annotator").onchange = event => {
   annotator = event.target.value;
   store.set("advice_labeling_annotator", annotator);
   loadLabels(); refreshVisible(); renderItem(); renderList();
 };
-// Enter confirms the name and leaves the field, so the next key press labels instead of typing
-document.getElementById("annotator").onkeydown = event => { if (event.key === "Enter") event.target.blur(); };
-document.getElementById("part").onchange = event => { store.set("advice_labeling_part", event.target.value); position = 0; visible = []; refreshVisible(); go(0); };
-document.getElementById("unlabelled-only").onchange = () => { refreshVisible(); go(position); };
-document.getElementById("list").onclick = event => { if (event.target.dataset.index) go(Number(event.target.dataset.index)); };
-document.getElementById("turns").onclick = event => {
-  if (event.target.dataset.turn) { setField("turn", Number(event.target.dataset.turn)); renderItem(); }
-  if (event.target.dataset.key) { expanded.add(event.target.dataset.key); renderItem(); }
+document.getElementById("annotator").onkeydown = leaveOnEnter;
+document.getElementById("notes").onkeydown = leaveOnEnter;
+document.getElementById("part").onchange = event => {
+  store.set("advice_labeling_part", event.target.value); event.target.blur();
+  position = 0; visible = []; refreshVisible(); go(0);
 };
-for (const button of document.querySelectorAll(".choice")) button.onclick = () => setField(button.dataset.field, button.dataset.value);
+document.getElementById("unlabelled-only").onchange = event => { event.target.blur(); refreshVisible(); go(position); };
+const autoAdvance = document.getElementById("auto-advance");
+autoAdvance.checked = store.get("advice_labeling_auto_advance") !== "off";
+autoAdvance.onchange = () => { store.set("advice_labeling_auto_advance", autoAdvance.checked ? "on" : "off"); autoAdvance.blur(); };
+document.getElementById("list").onclick = event => { if (event.target.dataset.index) go(Number(event.target.dataset.index)); };
+document.getElementById("model").onclick = event => { if (event.target.dataset.jump) showModelTurn(); };
+document.getElementById("turns").onclick = event => { if (event.target.dataset.key) { expanded.add(event.target.dataset.key); renderItem(); } };
+// a clicked button keeps focus, and Space or Enter would then press it again on the next conversation
+for (const button of document.querySelectorAll(".choice")) button.onclick = () => { button.blur(); setField("label", button.dataset.value); };
 document.getElementById("notes").onchange = event => setField("notes", event.target.value);
 document.getElementById("prev").onclick = () => go(position - 1);
 document.getElementById("next").onclick = () => go(position + 1);
@@ -405,14 +465,12 @@ document.getElementById("guide-close").onclick = () => guide.close();
 
 document.addEventListener("keydown", event => {
   if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName) || guide.open) return;
-  const keys = { q: ["stage1", "yes"], w: ["stage1", "no"], a: ["stage2", "yes"], s: ["stage2", "no"],
-                 "1": ["final", "clear_yes"], "2": ["final", "leaning_yes"], "3": ["final", "leaning_no"], "4": ["final", "clear_no"] };
+  if (event.ctrlKey || event.metaKey || event.altKey) return;       // leave browser shortcuts alone
   const key = event.key.toLowerCase();
-  if (keys[key]) {
-    const [field, value] = keys[key];
-    if (field === "final" && !allowedFinals(labels[visible[position].id] || {}).includes(value)) return;
-    setField(field, value);
-  } else if (key === "n") nextOpen();
+  if (key === "y") setField("label", "yes");
+  else if (key === "n") setField("label", "no");
+  else if (key === "u") nextOpen();
+  else if (key === "j") showModelTurn();
   else if (event.key === "ArrowRight") go(position + 1);
   else if (event.key === "ArrowLeft") go(position - 1);
 });
